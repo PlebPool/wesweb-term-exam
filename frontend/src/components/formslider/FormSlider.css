@@ -9,6 +9,7 @@
     transition: inherit;
     color: inherit;
     overflow: hidden;
+    height: 850px;
 }
 
 .formSlider div {

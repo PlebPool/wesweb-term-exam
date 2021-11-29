@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
 @Suppress("unused")
 @Configuration
 class PostConfig: ModelInitializerConfig<PostConfig, Post, Long>(PostConfig::class) {
-    val init = false
+    val init = true
     @Bean
     override fun init(repo: ReactiveCrudRepository<Post, Long>): CommandLineRunner {
         if(init) {

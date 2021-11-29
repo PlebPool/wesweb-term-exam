@@ -2,21 +2,18 @@ package com.utopia.backend.posts.web.functional
 
 import com.utopia.backend.generics.beans.SpringManaged
 import com.utopia.backend.generics.errors.BadRequestException
+import com.utopia.backend.generics.errors.NotFoundException
 import com.utopia.backend.posts.model.Liked
 import com.utopia.backend.posts.model.Post
 import com.utopia.backend.posts.model.PostRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitFirst
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.bodyAndAwait
-import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import java.lang.NumberFormatException
 import java.net.URI
 
@@ -50,9 +47,9 @@ class PostHandler(
         val liked: Liked = request.bodyToMono(Liked::class.java).awaitFirst()
         val post: Mono<Post> = postRepository.findById(id).map {
             if(liked.isLike) {
-                return@map postRepository.like(it.id)
+                return@map postRepository.like(it.id, "127.0.0.1", true)
             } else {
-                return@map postRepository.unlike(it.id)
+                return@map postRepository.unlike(it.id, "127.0.0.1", false)
             }
         }.awaitFirst()
         return ServerResponse.ok().bodyAndAwait(post.asFlow())
