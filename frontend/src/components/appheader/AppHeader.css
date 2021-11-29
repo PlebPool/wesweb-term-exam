@@ -1,0 +1,72 @@
+.siteHead {
+    border: inherit;
+    height: 100px;
+    background: inherit;
+    color: inherit;
+    /*background: transparent;*/
+    height: 100px;
+    position: relative;
+}
+
+.title {
+    background: transparent;
+    text-align: center;
+    width: fit-content;
+    height: 70px;
+    z-index: 1;
+    border-radius: 25px;
+    border: inherit;
+    padding: 10px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transition: all 0.5s;
+}
+
+.title h1 {
+    text-shadow: 1px 2px 0px #aaa;
+    text-decoration: underline;
+}
+
+/*.title:after {
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 2px dotted #ff0000;
+    transform: translate(-50%);
+}*/
+
+.logo {
+    animation: spin infinite 2.5s linear;
+    z-index: -2;
+    display: inline-block;
+    position: absolute;
+}
+
+.spinner {
+    animation: move-right infinite 20s linear;
+}
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+@keyframes move-right {
+    from {
+        transform: translateX(-5%);
+    }
+    to {
+        transform: translateX(105%);
+    }
+}

@@ -1,0 +1,21 @@
+.formSlider {
+    border: inherit;
+    background: inherit;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70%;
+    transition: inherit;
+    color: inherit;
+    overflow: hidden;
+}
+
+.formSlider div {
+    border: inherit;
+    margin: 50px;
+}
+
+.form * {
+    margin: 5px;
+}

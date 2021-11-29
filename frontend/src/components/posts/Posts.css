@@ -1,0 +1,26 @@
+.post {
+    border: inherit;
+    margin-left: 300px;
+    margin-right: 300px;
+    padding: 20px;
+    background: inherit;
+    color: inherit;
+    box-shadow: 20px 20px 2px 2px black;
+    white-space: pre-wrap;
+}
+
+.posts {
+    color: inherit;
+    background: inherit;
+    border: inherit;
+    display: contents;
+}
+
+.postInfo {
+    display: inline;
+    justify-content: space-between;
+}
+
+.postTitle {
+    text-decoration: underline;
+}
