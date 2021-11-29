@@ -1,8 +1,15 @@
 package com.utopia.backend.posts.model.config
 
+import com.thedeanda.lorem.Lorem
+import com.thedeanda.lorem.LoremIpsum
 import com.utopia.backend.generics.beans.SpringManaged
-import com.utopia.backend.generics.modelconfig.ModelInitializerConfig
+import com.utopia.backend.posts.model.PathToPost
+import com.utopia.backend.posts.model.PathToPostRepository
 import com.utopia.backend.posts.model.Post
+import com.utopia.backend.posts.model.PostRepository
+import kotlinx.coroutines.reactive.awaitFirst
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,10 +23,12 @@ import java.time.temporal.ChronoUnit
 */
 @Suppress("unused")
 @Configuration
-class PostConfig: ModelInitializerConfig<PostConfig, Post, Long>(PostConfig::class) {
-    val init = true
+class PostConfig: SpringManaged() {
+    val log: Logger = LoggerFactory.getLogger(this::class.java.name)
+    val lorem: Lorem = LoremIpsum.getInstance()
+    val init = false
     @Bean
-    override fun init(repo: ReactiveCrudRepository<Post, Long>): CommandLineRunner {
+    fun init(repo: PostRepository<Long>, repo2: PathToPostRepository<Long>): CommandLineRunner {
         if(init) {
             var content = "<h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2> Etiam condimentum neque non neque scelerisque commodo. Maecenas finibus, diam sed auctor accumsan, diam libero tempus ante, sed cursus dolor neque mollis lacus. Phasellus non ultrices libero. Nam placerat suscipit pharetra. Nam semper sit amet nulla eu ultrices. Nullam ut erat sed dolor rutrum aliquet ut non lacus. Pellentesque eleifend efficitur lacus sit amet cursus. Pellentesque at enim justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum quis ex eu enim ullamcorper tristique vitae varius sapien. Sed massa nisl, posuere eu ex id, tempus gravida lacus. Nulla facilisi. Mauris aliquam ex purus, at condimentum nisi faucibus porttitor.\n" +
                     "\n" +
@@ -32,12 +41,19 @@ class PostConfig: ModelInitializerConfig<PostConfig, Post, Long>(PostConfig::cla
                     "Curabitur rhoncus tortor sit amet leo porttitor, sed tempus est euismod. Donec cursus ornare odio, ut tempus orci tristique eget. Nullam euismod massa a nisl tincidunt lacinia. Donec lobortis odio vel rutrum blandit. Morbi euismod consequat leo sed ultricies. Etiam fermentum ornare congue. Donec finibus blandit ex, in auctor sem commodo eu. Nam at varius est. Cras a lacinia nunc, in malesuada turpis. Quisque risus est, consectetur et lectus vel, placerat posuere ex. Maecenas ullamcorper enim eget augue semper vulputate. Integer molestie lacus cursus, pulvinar eros nec, blandit tellus. Ut at ipsum nibh. Fusce gravida vitae diam non ultrices. In mi dolor, ornare et volutpat eget, consequat vitae augue."
 
             content = content.replace("\n", "\\n")
+            var post: Post?
             for(i in 1..6) {
-                log.info("Preloading: " + repo.save(Post(0,
+                post = repo.save(Post(0,
                         lorem.name,
                         lorem.getTitle(2, 4),
-                        content))
-                        .block())
+                        content)).block()
+                //log.info("THING::: ${repo.createPostPath(post.postId).block()}")
+
+                if (post != null) {
+                    val pathToPost: PathToPost? = repo2.save(PathToPost(0, "/posts/${post.postId}")).block()
+                    log.info("cooler::: $pathToPost")
+                }
+                log.info("Preloading: $post")
             }
         }
         return CommandLineRunner {  }
