@@ -45,6 +45,18 @@ class PostHandler(
     suspend fun like(request: ServerRequest): ServerResponse {
         val id: Long = request.pathVariable("id").toLong()
         val liked: Liked = request.bodyToMono(Liked::class.java).awaitFirst()
+        // Check if ip is logged, if logged, do stuff.
+        // If not logged, log, and do stuff.
+        postRepository.checkIfLiked("127.0.0.1", id)
+            .map { isLiked ->
+            return@map postRepository.findById(id).map { post ->
+                if(isLiked) {
+                    postRepository.like(post.id, "127.0.0.1", true)
+                } else {
+                    postRepository.unlike(post.id, "127.0.0.1", false)
+                }
+            }
+        }.awaitFirst()
         val post: Mono<Post> = postRepository.findById(id).map {
             if(liked.isLike) {
                 return@map postRepository.like(it.id, "127.0.0.1", true)
