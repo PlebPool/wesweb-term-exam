@@ -1,13 +1,13 @@
 //package com.utopia.backend.posts.web
 //
 //import com.utopia.backend.generics.errors.NotFoundException
-//import com.utopia.backend.posts.model.Post
+//import com.utopia.backend.posts.model.post.Post
 //import com.utopia.backend.generics.assemblers.EntityModelAssembler
 //import com.utopia.backend.generics.assemblers.ReactiveIdQueryableController
 //import com.utopia.backend.generics.assemblers.Vessel
 //import com.utopia.backend.generics.beans.SpringManaged
 //import com.utopia.backend.posts.model.Liked
-//import com.utopia.backend.posts.model.PostRepository
+//import com.utopia.backend.posts.model.post.PostRepository
 //import org.springframework.hateoas.EntityModel
 //import org.springframework.web.bind.annotation.*
 //import reactor.core.publisher.Flux

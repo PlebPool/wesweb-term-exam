@@ -1,6 +1,6 @@
 //package com.utopia.backend.posts.web.assembler
 //
-//import com.utopia.backend.posts.model.Post
+//import com.utopia.backend.posts.model.post.Post
 //import com.utopia.backend.posts.web.PostController
 //import org.slf4j.LoggerFactory
 //import org.springframework.hateoas.EntityModel

@@ -19,9 +19,9 @@ class PostRouteConfig(
         return coRouter {
             accept(MediaType.APPLICATION_JSON).nest {
                 GET("/posts") { handler.getAll(it) }
-                GET("/posts/{id}") { handler.getOne(it) }
+                GET("/posts/{post_id}") { handler.getOne(it) }
                 POST("/posts") { handler.createOne(it) }
-                PUT("/posts/like/{id}") { handler.like(it) }
+                PUT("/posts/like/{post_id}") { handler.like(it) }
             }
         }
     }

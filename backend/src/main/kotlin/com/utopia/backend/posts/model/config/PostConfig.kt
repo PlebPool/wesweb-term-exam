@@ -3,20 +3,17 @@ package com.utopia.backend.posts.model.config
 import com.thedeanda.lorem.Lorem
 import com.thedeanda.lorem.LoremIpsum
 import com.utopia.backend.generics.beans.SpringManaged
-import com.utopia.backend.posts.model.PathToPost
-import com.utopia.backend.posts.model.PathToPostRepository
-import com.utopia.backend.posts.model.Post
-import com.utopia.backend.posts.model.PostRepository
-import kotlinx.coroutines.reactive.awaitFirst
+import com.utopia.backend.posts.model.pathtopost.PathToPost
+import com.utopia.backend.posts.model.pathtopost.PathToPostRepository
+import com.utopia.backend.posts.model.post.Post
+import com.utopia.backend.posts.model.post.PostRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
+import kotlin.reflect.jvm.internal.impl.resolve.constants.ULongValue
+
 /*
     Creates a @Configuration bean which Spring uses to initialize the @Bean's it configures.
     We only have one @Bean here.
@@ -24,11 +21,10 @@ import java.time.temporal.ChronoUnit
 @Suppress("unused")
 @Configuration
 class PostConfig: SpringManaged() {
-    val log: Logger = LoggerFactory.getLogger(this::class.java.name)
     val lorem: Lorem = LoremIpsum.getInstance()
     val init = false
     @Bean
-    fun init(repo: PostRepository<Long>, repo2: PathToPostRepository<Long>): CommandLineRunner {
+    fun init(repo: PostRepository, repo2: PathToPostRepository): CommandLineRunner {
         if(init) {
             var content = "<h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2> Etiam condimentum neque non neque scelerisque commodo. Maecenas finibus, diam sed auctor accumsan, diam libero tempus ante, sed cursus dolor neque mollis lacus. Phasellus non ultrices libero. Nam placerat suscipit pharetra. Nam semper sit amet nulla eu ultrices. Nullam ut erat sed dolor rutrum aliquet ut non lacus. Pellentesque eleifend efficitur lacus sit amet cursus. Pellentesque at enim justo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum quis ex eu enim ullamcorper tristique vitae varius sapien. Sed massa nisl, posuere eu ex id, tempus gravida lacus. Nulla facilisi. Mauris aliquam ex purus, at condimentum nisi faucibus porttitor.\n" +
                     "\n" +
@@ -43,14 +39,15 @@ class PostConfig: SpringManaged() {
             content = content.replace("\n", "\\n")
             var post: Post?
             for(i in 1..6) {
-                post = repo.save(Post(0,
+                post = repo.save(
+                    Post(0,
                         lorem.name,
                         lorem.getTitle(2, 4),
-                        content)).block()
+                        content)
+                ).block()
                 //log.info("THING::: ${repo.createPostPath(post.postId).block()}")
-
                 if (post != null) {
-                    val pathToPost: PathToPost? = repo2.save(PathToPost(0, "/posts/${post.postId}")).block()
+                    val pathToPost: PathToPost? = repo2.save(PathToPost(0, "/posts/${post.post_id}")).block()
                     log.info("cooler::: $pathToPost")
                 }
                 log.info("Preloading: $post")

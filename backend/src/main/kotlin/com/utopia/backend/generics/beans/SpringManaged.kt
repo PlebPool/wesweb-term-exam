@@ -4,7 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 open class SpringManaged {
-    private val log: Logger = LoggerFactory.getLogger(this::class.java.name)
+    val log: Logger = LoggerFactory.getLogger(this::class.java.name)
     init {
         log.info("Initialized: ${this::class.java.name}")
     }

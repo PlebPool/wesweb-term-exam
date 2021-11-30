@@ -1,4 +1,7 @@
-package com.utopia.backend.posts.model
+package com.utopia.backend.posts.model.wholikedwhat
+
+import jdk.jfr.Unsigned
+import org.springframework.data.relational.core.mapping.Table
 
 /*
     This is a domain class that allows us to handle the likes column as an object.
@@ -8,6 +11,9 @@ package com.utopia.backend.posts.model
                 Liked: true
             }
 */
-data class Liked(
-        val isLike: Boolean
+
+data class WhoLikedWhat(
+        val ip: Int,
+        var post_id: Long,
+        val liked: Boolean
 )
