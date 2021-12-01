@@ -35,9 +35,6 @@ interface PostRepository : ReactiveCrudRepository<Post, Long> {
     @Query("SELECT EXISTS(SELECT * FROM who_liked_what WHERE (ip, post_id) = (inet_aton(:ip), :post_id));")
     fun checkIfLogged(@Param("ip") ip: String, @Param("post_id") post_id: Long): Mono<Boolean>
 
-    @Query("INSERT INTO path_to_post VALUES(:post_id, CONCAT('/posts/', :post_id));")
-    fun createPostPath(@Param("post_id") post_id: Long): Mono<Post>
-
     @Query("SELECT relative_path FROM path_to_post ORDER BY post_id DESC LIMIT :amount;")
     fun getAmountOfPostPaths(@Param("amount") amount: Long): Flux<PathToPost>
 }

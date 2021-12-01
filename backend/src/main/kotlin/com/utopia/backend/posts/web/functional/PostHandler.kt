@@ -28,7 +28,6 @@ class PostHandler(
     suspend fun getAll(request: ServerRequest): ServerResponse {
         return ServerResponse.ok().bodyAndAwait(pathToPostRepository.getAllWithLimit(10L).asFlow())
     }
-
     suspend fun getOne(request: ServerRequest): ServerResponse {
         val postId = request.pathVariable("post_id").toLong() // Gets ID that is requested.
         val ip = getIpFromRequest(request) // Gets the IP of the client.
@@ -54,7 +53,7 @@ class PostHandler(
         return ip
     }
     /*
-        Parses Post object into JSONObject, and adds the "hasLiked" property.
+        Parses a Post object into JSONObject, and adds the "hasLiked" property.
         "hasLiked" is true, if request IP has liked the comment being retrieved.
     */
     private suspend fun parsePostIntoJsonObject(post: Post, ip: String): JSONObject {
@@ -65,29 +64,27 @@ class PostHandler(
         json["likes"] = post.likes
         json["dateOfPost"] = post.dateOfPost
         json["timeOfPost"] = post.timeOfPost
+        json["post_id"] = post.post_id
         // Checks if the client IP has liked the post, if no record is found, then we set "hasLiked" to false.
         // if a record is found, then we set "hasLiked" to whatever boolean the record contained.
         json["hasLiked"] = whoLikedWhatRepository.getByIpAndId(ip, post.post_id).awaitFirstOrDefault(false)
         return json
     }
-
     suspend fun createOne(request: ServerRequest): ServerResponse {
         val postedPost = request.bodyToMono(Post::class.java).awaitFirst()
         if(validatePost(postedPost)) {
             val post: Post = postRepository.save(postedPost).awaitFirst() // We need to wait for the save to finish.
-            postRepository.createPostPath(post.post_id)
+            pathToPostRepository.createPostPath(post.post_id)
             // Before we can put the post into the response. Or we will save it twice. IDK why.
             return ServerResponse
                 .created(URI("/posts/${post.post_id}")).body(BodyInserters.fromValue(post)).awaitFirst()
         }
         throw BadRequestException("Title or content cannot be empty")
     }
-
     // Checks so that the Post that is about to be saved, is valid.
     private fun validatePost(post: Post): Boolean {
         return (post.title != "" && post.content != "")
     }
-
     suspend fun like(request: ServerRequest): ServerResponse {
         val id: Long = request.pathVariable("post_id").toLong()
         val ip: String = getIpFromRequest(request)

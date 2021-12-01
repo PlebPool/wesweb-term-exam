@@ -1,15 +1,11 @@
-import React from 'react'
 import "./Posts.css"
 import Post from './Post'
 
-const Posts = ({ posts }) => {
-
+const Posts = ({ postRefs }) => {
     return (
         <main className="posts">
-            {posts.slice(0).reverse().map((post) => {
-            return(
-                <Post post={post} key={post.id} />
-            )
+            {postRefs.map((postRef) => {
+                return <Post postRef={postRef} key={postRef.post_id} />
             })}
         </main>
     )

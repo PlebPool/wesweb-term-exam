@@ -12,7 +12,6 @@ INSERT INTO who_liked_what VALUES(inet_aton("127.0.0.2"), 2, true) ON DUPLICATE 
 UPDATE post SET likes = if((post_id, (SELECT liked FROM who_liked_what WHERE (ip, post_id) = (inet_aton("127.0.0.2"), 2))) = (2, true), likes+1, likes-1) WHERE post_id = 2;
 SELECT * FROM who_liked_what, post WHERE who_liked_what.post_id = post.post_id;
 
-
 DELETE FROM post;
 
 SELECT * FROM post;

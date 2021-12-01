@@ -20,7 +20,6 @@ html {
   color: var(--color-text);
   display: var(--display-contents-main);
   overflow-x: hidden;
- 
 }
 
 /*html:after {
@@ -37,6 +36,10 @@ html {
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.Loading-Icon {
+  margin: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

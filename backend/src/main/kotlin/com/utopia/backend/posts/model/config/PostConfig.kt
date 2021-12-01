@@ -47,7 +47,7 @@ class PostConfig: SpringManaged() {
                 ).block()
                 //log.info("THING::: ${repo.createPostPath(post.postId).block()}")
                 if (post != null) {
-                    val pathToPost: PathToPost? = repo2.save(PathToPost(0, "/posts/${post.post_id}")).block()
+                    val pathToPost: PathToPost? = repo2.createPostPath(0).block()
                     log.info("cooler::: $pathToPost")
                 }
                 log.info("Preloading: $post")
