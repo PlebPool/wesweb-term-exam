@@ -7,12 +7,9 @@ import com.utopia.backend.posts.model.pathtopost.PathToPost
 import com.utopia.backend.posts.model.pathtopost.PathToPostRepository
 import com.utopia.backend.posts.model.post.Post
 import com.utopia.backend.posts.model.post.PostRepository
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import kotlin.reflect.jvm.internal.impl.resolve.constants.ULongValue
 
 /*
     Creates a @Configuration bean which Spring uses to initialize the @Bean's it configures.
@@ -22,7 +19,7 @@ import kotlin.reflect.jvm.internal.impl.resolve.constants.ULongValue
 @Configuration
 class PostConfig: SpringManaged() {
     val lorem: Lorem = LoremIpsum.getInstance()
-    val init = false
+    val init = true
     @Bean
     fun init(repo: PostRepository, repo2: PathToPostRepository): CommandLineRunner {
         if(init) {
@@ -47,7 +44,7 @@ class PostConfig: SpringManaged() {
                 ).block()
                 //log.info("THING::: ${repo.createPostPath(post.postId).block()}")
                 if (post != null) {
-                    val pathToPost: PathToPost? = repo2.createPostPath(0).block()
+                    val pathToPost: PathToPost? = repo2.createPostPath(post.post_id).block()
                     log.info("cooler::: $pathToPost")
                 }
                 log.info("Preloading: $post")

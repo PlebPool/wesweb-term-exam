@@ -2,6 +2,7 @@ package com.utopia.backend.posts.web.functional
 
 import com.utopia.backend.generics.beans.SpringManaged
 import com.utopia.backend.generics.errors.BadRequestException
+import com.utopia.backend.posts.model.pathtopost.PathToPost
 import com.utopia.backend.posts.model.pathtopost.PathToPostRepository
 import com.utopia.backend.posts.model.post.Post
 import com.utopia.backend.posts.model.post.PostRepository
@@ -74,7 +75,7 @@ class PostHandler(
         val postedPost = request.bodyToMono(Post::class.java).awaitFirst()
         if(validatePost(postedPost)) {
             val post: Post = postRepository.save(postedPost).awaitFirst() // We need to wait for the save to finish.
-            pathToPostRepository.createPostPath(post.post_id)
+            log.info("Added..." + pathToPostRepository.save(PathToPost(0, "/posts/${post.post_id}")).awaitFirst())
             // Before we can put the post into the response. Or we will save it twice. IDK why.
             return ServerResponse
                 .created(URI("/posts/${post.post_id}")).body(BodyInserters.fromValue(post)).awaitFirst()

@@ -3,18 +3,6 @@ import axios from 'axios'
 import LoadingIcons from 'react-loading-icons'
 
 const Post = ({ postRef }) => {
-    /*
-    const mock = {
-        post_id: 0,
-        alias: "alias",
-        title: "title",
-        content: "content",
-        likes: 0,
-        liked: false,
-        dateOfPost: "date",
-        timeOfPost: "time"
-    }
-    */
     const [liked, setLiked] = useState(false)
     const [post, setPost] = useState()
     const [likes, setLikes] = useState(0)
@@ -32,7 +20,7 @@ const Post = ({ postRef }) => {
                 setPost_id(res.data.post_id)
                 setIsLoading(false)
             })
-        }, 1000);
+        }, 0);
     }, [postRef])
 
     const doLike = (like) => {

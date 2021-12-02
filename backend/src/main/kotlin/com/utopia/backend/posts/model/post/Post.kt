@@ -1,12 +1,8 @@
 package com.utopia.backend.posts.model.post
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.Transient
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.temporal.ChronoUnit
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 /*
