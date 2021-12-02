@@ -1,7 +1,7 @@
 .post {
     border: inherit;
-    margin-left: 300px;
-    margin-right: 300px;
+    margin: 0 auto;
+    width: 750px;
     padding: 20px;
     background: inherit;
     color: inherit;
