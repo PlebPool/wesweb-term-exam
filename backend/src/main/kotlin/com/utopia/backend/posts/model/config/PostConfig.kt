@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class PostConfig: SpringManaged() {
     val lorem: Lorem = LoremIpsum.getInstance()
-    val init = true
+    val init = false
     @Bean
     fun init(repo: PostRepository, repo2: PathToPostRepository): CommandLineRunner {
         if(init) {
