@@ -42,7 +42,7 @@ function App() {
               setIfNotLoaded({failed: true, message: "Failed to load Posts, try again later..."})
             }
           })
-        }, 100);
+        }, 1000);
     }
     getData()
     

@@ -49,7 +49,8 @@ class PostHandler(
         We need to switch it back to avoid an error with inet_aton(ip) in MYSQL.
     */
     private fun getIpFromRequest(request: ServerRequest): String {
-        var ip: String = request.remoteAddress().orElseThrow().address.toString().replace("/", "")
+        var ip: String = request
+                .remoteAddress().orElseThrow().address.toString().replace("/", "")
         if(ip == "0:0:0:0:0:0:0:1") ip = "127.0.0.1" // "0:0:0:0:0:0:0:1" does not work with inet_aton() in mysql
         return ip
     }
@@ -75,7 +76,8 @@ class PostHandler(
         val postedPost = request.bodyToMono(Post::class.java).awaitFirst()
         if(validatePost(postedPost)) {
             val post: Post = postRepository.save(postedPost).awaitFirst() // We need to wait for the save to finish.
-            log.info("Added..." + pathToPostRepository.save(PathToPost(0, "/posts/${post.post_id}")).awaitFirst())
+            log.info("Added..." + pathToPostRepository
+                    .save(PathToPost(0, "/posts/${post.post_id}")).awaitFirst())
             // Before we can put the post into the response. Or we will save it twice. IDK why.
             return ServerResponse
                 .created(URI("/posts/${post.post_id}")).body(BodyInserters.fromValue(post)).awaitFirst()

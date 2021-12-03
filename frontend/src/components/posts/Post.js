@@ -20,7 +20,7 @@ const Post = ({ postRef }) => {
                 setPost_id(res.data.post_id)
                 setIsLoading(false)
             })
-        }, 100);
+        }, 1000);
     }, [postRef])
 
     const doLike = (like) => {
