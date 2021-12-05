@@ -28,7 +28,4 @@ data class Post(
             alias = "Anonymous"
         }
     }
-
-
-
 }
