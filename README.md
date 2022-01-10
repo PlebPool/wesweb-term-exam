@@ -18,3 +18,4 @@ The button to bring out the post window is the "hey" button in the top left corn
 This is the posting window that slides out when the "hey" button is pressed.
 ![image](https://user-images.githubusercontent.com/64704277/148844025-32b950ff-c0cf-4461-a109-d62ddeed06b9.png)
 
+I have no clue why I made it among us themed...
